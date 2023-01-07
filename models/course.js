@@ -1,8 +1,4 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
-const jwt = require("jsonwebtoken");
-const bcryptjs = require("bcryptjs");
-const jwtSecret = process.env.JWT_SECRET;
 const courseSchema = mongoose.Schema({
   coursename: {
     type: String,
