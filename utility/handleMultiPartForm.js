@@ -73,7 +73,7 @@ function handleMultiPartForm(req, res, ObjSChema, sucessMessage) {
     await objMongo.save();
     res.send({
       message: `${sucessMessage} ${count} files Received`,
-      data: { obj },
+      obj,
       isError: false,
     });
   });

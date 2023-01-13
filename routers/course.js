@@ -21,13 +21,21 @@ router.get("/course/get-course", (req, res) => {
 });
 router.post("/course/get-courses-list", cors(), auth, async (req, res) => {
   //authentication api need to make it post and receive token
-
-  const result = await Course.find({ owner: req.user.email });
-  res.send({
-    message: "course list fetched successfully",
-    data: { courses: result, userEmail: req.user.email },
-    isError: false,
-  });
+  try {
+    const result = await Course.find({ owner: req.user.email });
+    res.send({
+      message: "course list fetched successfully",
+      courses: result,
+      userEmail: req.user.email,
+      isError: false,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      courses: [],
+      isError: true,
+    });
+  }
 });
 //some previous experiments will be cleaned later
 //multer way of file uploading in multipart form data
