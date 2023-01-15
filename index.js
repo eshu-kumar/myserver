@@ -12,6 +12,7 @@ const { createConnection } = require("./db/mongoose");
 const auth = require("./middleware/auth");
 const userRouter = require("./routers/user");
 const courseRouter = require("./routers/course");
+const lectureRouter = require("./routers/lecture");
 const closeServer = require("./utility/closeServer");
 createConnection();
 const app = express();
@@ -23,6 +24,7 @@ app.use(
 );
 app.use(userRouter);
 app.use(courseRouter);
+app.use(lectureRouter);
 const httpServer = http.createServer(app);
 const server = new ApolloServer({
   typeDefs,

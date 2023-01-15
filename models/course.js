@@ -45,7 +45,6 @@ const courseSchema = mongoose.Schema({
     //this field will be used to create the relationship betweeen task and the user
     type: String,
     required: true,
-    ref: "Course",
   },
 });
 

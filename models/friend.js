@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-console.log("in the freiends model");
 const friendSchema = new mongoose.Schema({
   firstName: {
     type: String,

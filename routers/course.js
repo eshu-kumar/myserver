@@ -3,6 +3,7 @@ const cors = require("cors");
 const router = new express.Router();
 router.use(cors());
 const Course = require("../models/course");
+const Lecture = require("../models/lecture");
 const auth = require("../middleware/auth");
 const multer = require("multer");
 const fs = require("fs");
@@ -11,7 +12,27 @@ router.post("/course/create-course", auth, async (req, res) => {
   const sucessMessage = "course created successfully";
   handleMultiPartForm(req, res, Course, sucessMessage);
 });
-
+router.post("/course/get-course-info", cors(), auth, async (req, res) => {
+  try {
+    const courseId = req.body._id;
+    const course = await Course.findById(courseId);
+    const lectures = await Lecture.find({ courseId });
+    res.send({
+      message: "course list fetched successfully",
+      course: course,
+      lectures: lectures,
+      userEmail: req.user.email,
+      isError: false,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      course: {},
+      lectures: [],
+      isError: true,
+    });
+  }
+});
 router.get("/course/get-course", (req, res) => {
   // console.log("in the get course route");
   //later replace user email with user id
