@@ -42,7 +42,8 @@ router.post("/user/login", cors(), async (req, res) => {
     res.send({
       message: "User logged in successfully",
       isError: false,
-      data: { email: user.email, token },
+      token,
+      email: user.email,
     });
   } catch (error) {
     console.log("error in login post route ", error);
