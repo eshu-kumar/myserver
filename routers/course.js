@@ -35,7 +35,7 @@ router.post("/course/get-course-info", cors(), auth, async (req, res) => {
 });
 router.get("/course/get-course", (req, res) => {
   // console.log("in the get course route");
-  //later replace user email with user id
+  //later replace user email with user id  checking git push
   res.sendFile(`/${req.query.userEmail}/${req.query.file}`, {
     root: "./uploads",
   });
