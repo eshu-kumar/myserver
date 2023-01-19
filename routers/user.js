@@ -18,10 +18,8 @@ router.post("/user/signup", cors(), async (req, res) => {
     const token = await user.generateAuthToken();
     console.log("sign up done");
     res.status(201).send({
-      data: {
-        token,
-        user,
-      },
+      token,
+      email: user.email,
       message: "User signed up successfully",
       isError: false,
     });
@@ -63,12 +61,12 @@ router.post("/user/logout", cors(), auth, async (req, res) => {
     res.status(404).send({ isError: "true", message: error.message });
   }
 });
-router.post("/user/user-profile", cors(), auth, async (req, res) => {
+router.post("/user/authenticate", cors(), auth, async (req, res) => {
   try {
     console.log("in the user profile route");
     res.status(201).send({
-      message: "user exists",
-      data: { email: req.user.email },
+      message: `It is VALID session for ${req.user.email}  `,
+      email: req.user.email,
       isError: false,
     });
   } catch (error) {
