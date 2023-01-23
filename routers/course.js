@@ -10,18 +10,19 @@ const fs = require("fs");
 const handleMultiPartForm = require("../utility/handleMultiPartForm");
 router.post("/course/create-course", auth, async (req, res) => {
   const sucessMessage = "course created successfully";
-  handleMultiPartForm(req, res, Course, sucessMessage);
+  const dirName = "courses";
+  handleMultiPartForm(req, res, Course, dirName, sucessMessage);
 });
-router.post("/course/get-course-info", cors(), auth, async (req, res) => {
+router.post("/course/get-course-info", cors(), async (req, res) => {
   try {
     const courseId = req.body._id;
     const course = await Course.findById(courseId);
+    //need to think about sending lectures or not
     const lectures = await Lecture.find({ courseId });
     res.send({
       message: "course list fetched successfully",
       course: course,
       lectures: lectures,
-      userEmail: req.user.email,
       isError: false,
     });
   } catch (error) {
@@ -36,21 +37,33 @@ router.post("/course/get-course-info", cors(), auth, async (req, res) => {
 router.get("/course/get-course", (req, res) => {
   // console.log("in the get course route");
   //later replace user email with user id  checking git push
-  res.sendFile(`/${req.query.userEmail}/${req.query.file}`, {
+  res.sendFile(`/courses/${req.query.file}`, {
     root: "./uploads",
   });
 });
-router.post("/course/get-courses-list", cors(), auth, async (req, res) => {
+router.post("/course/get-courses-list", cors(), async (req, res) => {
   //authentication api need to make it post and receive token
+  const query = req.body.query;
+  const type = query.type;
+  const owner = query.owner ? query.owner : "";
+  let result;
   try {
-    const result = await Course.find({ owner: req.user.email });
+    if (type === "all") {
+      result = await Course.find({});
+    } else if (type === "myLearnings") {
+      result = await Course.find({ owner: owner });
+    } else if (type === "myCreations") {
+      result = await Course.find({ owner: owner });
+    }
+
+    console.log("result in course list ", result);
     res.send({
       message: "course list fetched successfully",
       courses: result,
-      userEmail: req.user.email,
       isError: false,
     });
   } catch (error) {
+    console.log("error in course list ", error);
     res.send({
       message: error.message,
       courses: [],
