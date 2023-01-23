@@ -5,13 +5,13 @@ const { createWriteStream } = require("fs");
 const path = require("path");
 const { v4 } = require("uuid");
 const multiparty = require("multiparty");
-function handleMultiPartForm(req, res, ObjSChema, sucessMessage) {
+function handleMultiPartForm(req, res, ObjSChema, cDirName, sucessMessage) {
   let count = 0;
   let form = new multiparty.Form();
   //later replace user email with user id
   let useremail = req.user.email;
   let obj = { owner: useremail };
-  let dirName = `uploads/${useremail}`;
+  let dirName = `uploads/${cDirName}`;
   // Errors may be emitted
   // Note that if you are listening to 'part' events, the same error may be
   // emitted from the `form` and the `part`.

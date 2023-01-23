@@ -10,7 +10,8 @@ const handleMultiPartForm = require("../utility/handleMultiPartForm");
 
 router.post("/lecture/create-lecture", auth, async (req, res) => {
   const sucessMessage = "Lecture added successfully";
-  handleMultiPartForm(req, res, Lecture, sucessMessage);
+  const dirName = req.user.email;
+  handleMultiPartForm(req, res, Lecture, dirName, sucessMessage);
 });
 router.post("/lecture/get-lecture-info", cors(), auth, async (req, res) => {
   try {
