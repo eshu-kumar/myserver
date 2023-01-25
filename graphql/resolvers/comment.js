@@ -3,7 +3,7 @@ const comment = {
   Query: {
     comments: async () => {
       try {
-        const comments = await Comment.find();
+        const comments = await Comment.find().sort({ _id: -1 });
         return comments;
       } catch (err) {
         throw new Error(err);
