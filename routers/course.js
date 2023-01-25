@@ -51,12 +51,13 @@ router.post("/course/get-courses-list", cors(), async (req, res) => {
     if (type === "all") {
       result = await Course.find({});
     } else if (type === "myLearnings") {
+      //add functionality for enrolling to the course and buying the course
       result = await Course.find({ owner: owner });
     } else if (type === "myCreations") {
       result = await Course.find({ owner: owner });
     }
 
-    console.log("result in course list ", result);
+    // console.log("result in course list ", result);
     res.send({
       message: "course list fetched successfully",
       courses: result,
