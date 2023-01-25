@@ -1,4 +1,4 @@
-const discussion = `
+const series = `
 type Series {
   id: ID
   seriesName: String
@@ -22,4 +22,4 @@ type Mutation {
   addSeries(series: SeriesInput): Series
 }
 `;
-module.exports = discussion;
+module.exports = series;

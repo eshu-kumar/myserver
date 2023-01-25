@@ -1,31 +1,63 @@
-const Friend = require("../../models/friend");
+const Review = require("../../models/review");
 const review = {
   Query: {
-    getFriends: async (root, args, context) => {
-      // console.log("req header in getfriends resolver", context);
-      // console.log("req body in getfriends resolver", context.req.body);
-      // console.log("args and root in resolver getfreinds", args, root);
+    reviews: async () => {
       try {
-        const result = await Friend.find({});
-        return result;
-      } catch (error) {
-        return error;
+        const reviews = await Review.find();
+        return reviews;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    review: async (_, { id }) => {
+      try {
+        const review = await Review.findById(id);
+        if (!review) {
+          throw new Error("Review not found");
+        }
+        return review;
+      } catch (err) {
+        throw new Error(err);
       }
     },
   },
   Mutation: {
-    addFriend: async (root, { friend }, context) => {
-      // console.log("req header in addfriend resolver", context.req.headers);
-      // console.log("req body in addfriend resolver", context.req.body);
-      //console.log("friend is ", friend);
+    createReview: async (_, { reviewer, review }) => {
+      const newReview = new Review({
+        reviewer,
+        review,
+      });
       try {
-        const { ...rest } = friend;
-        let newFriend = new Friend({ ...rest });
-        const result = await newFriend.save();
-        return result;
-      } catch (error) {
-        console.log("error in graphql add friend resolver", error);
-        return error;
+        await newReview.save();
+        return newReview;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    updateReview: async (_, { id, reviewer, review }) => {
+      try {
+        const reviewToUpdate = await Review.findById(id);
+        if (!reviewToUpdate) {
+          throw new Error("Review not found");
+        }
+        if (reviewer) reviewToUpdate.reviewer = reviewer;
+        if (review) reviewToUpdate.review = review;
+        await reviewToUpdate.save();
+        return reviewToUpdate;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    deleteReview: async (_, { id }) => {
+      try {
+        const reviewToDelete = await Review.findById(id);
+        if (!reviewToDelete) {
+          throw new Error("Review not found");
+        }
+        await reviewToDelete.remove();
+        return reviewToDelete;
+      } catch (err) {
+        throw new Error(err);
       }
     },
   },

@@ -1,43 +1,21 @@
 const review = `
-type Friend {
+type Review {
   id: ID
-  firstName: String
-  lastName: String
-  gender: Gender
-  language: String
-  age: Int
-  email: String
-  contacts: [Contact]
+  reviewer: String
+  review: String
 }
-type Contact {
-  firstName: String
-  lastName: String
-}
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-input FriendInput {
-  firstName: String
-  lastName: String
-  gender: Gender
-  language: String
-  age: Int
-  email: String
-  contacts: [ContactInput]
-}
-input ContactInput {
-  firstName: String
-  lastName: String
+input ReviewInput {
+  reviewer: String!
+  review: String!
 }
 type Query {
-  getFriends: [Friend]
-  
+  reviews: [Review]
+  review(id: ID!): Review
 }
 type Mutation {
-  addFriend(friend: FriendInput): Friend
-  
+  createReview(review: ReviewInput): Review
+  updateReview(id: ID!, review: ReviewInput): Review
+  deleteReview(id: ID!): Review
 }
 `;
 module.exports = review;
