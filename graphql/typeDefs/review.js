@@ -5,8 +5,8 @@ type Review {
   review: String
 }
 input ReviewInput {
-  reviewer: String!
-  review: String!
+  reviewer: String
+  review: String
 }
 type Query {
   reviews: [Review]

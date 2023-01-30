@@ -3,7 +3,7 @@ const review = {
   Query: {
     reviews: async () => {
       try {
-        const reviews = await Review.find();
+        const reviews = await Review.find().sort({ _id: -1 });
         return reviews;
       } catch (err) {
         throw new Error(err);
@@ -22,10 +22,10 @@ const review = {
     },
   },
   Mutation: {
-    createReview: async (_, { reviewer, review }) => {
+    createReview: async (_, { review }) => {
+      const { ...rest } = review;
       const newReview = new Review({
-        reviewer,
-        review,
+        ...rest,
       });
       try {
         await newReview.save();
