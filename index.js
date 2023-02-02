@@ -14,6 +14,8 @@ const userRouter = require("./routers/user");
 const courseRouter = require("./routers/course");
 const lectureRouter = require("./routers/lecture");
 const closeServer = require("./utility/closeServer");
+const setUpWebSocketServer = require("./web-socket-server.js");
+//creating mongoose database connection
 createConnection();
 const app = express();
 app.use(express.json());
@@ -47,8 +49,10 @@ const server = new ApolloServer({
 (async () => {
   await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 })();
-
 console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+//setting up web socket server
+setUpWebSocketServer();
+
 app.post("/close-server", cors(), async (req, res) => {
   //we will add auth in this later
   //this closes the server gracefully its like closing the shop gracefully not sudden if you close suddenly all the http connections
